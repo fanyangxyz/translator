@@ -10,8 +10,8 @@
 <body>
     <div id="app">
         <header>
-            <h1>AI Translation Hub</h1>
-            <p>Translate any text and get AI-powered quality evaluation</p>
+            <h1>AI Translation Evaluator</h1>
+            <p>Enter your translation and get AI-powered quality evaluation</p>
         </header>
 
         <div id="translation-container">
@@ -19,7 +19,6 @@
                 <div class="lang-select">
                     <label for="source-lang">From:</label>
                     <select id="source-lang">
-                        <option value="auto">Auto-detect</option>
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
                         <option value="fr">French</option>
@@ -40,6 +39,7 @@
                 <div class="lang-select">
                     <label for="target-lang">To:</label>
                     <select id="target-lang">
+                        <option value="zh" selected>Chinese</option>
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
                         <option value="fr">French</option>
@@ -49,7 +49,6 @@
                         <option value="ru">Russian</option>
                         <option value="ja">Japanese</option>
                         <option value="ko">Korean</option>
-                        <option value="zh">Chinese</option>
                         <option value="ar">Arabic</option>
                         <option value="hi">Hindi</option>
                     </select>
@@ -58,40 +57,93 @@
 
             <div class="text-areas">
                 <div class="input-section">
-                    <textarea id="source-text" placeholder="Enter text to translate..."></textarea>
+                    <label for="source-text">Original Text:</label>
+                    <textarea id="source-text" placeholder="Enter the original text..."></textarea>
                     <div class="text-info">
-                        <span id="char-count">0 characters</span>
-                        <button id="clear-text">Clear</button>
+                        <span id="source-char-count">0 characters</span>
+                        <div class="text-controls">
+                            <button id="load-example">Load Example</button>
+                            <button id="clear-source">Clear</button>
+                        </div>
                     </div>
-                </div>
-
-                <div class="translation-controls">
-                    <button id="translate-btn">Translate</button>
-                    <div id="loading" class="hidden">Translating...</div>
                 </div>
 
                 <div class="output-section">
-                    <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
+                    <label for="translated-text">Your Translation:</label>
+                    <textarea id="translated-text" placeholder="Enter your translation here..."></textarea>
                     <div class="text-info">
-                        <button id="copy-translation">Copy</button>
+                        <span id="translation-char-count">0 characters</span>
+                        <button id="clear-translation">Clear</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="evaluation-section" class="hidden">
-                <h3>AI Quality Evaluation</h3>
-                <div id="evaluation-content">
-                    <div class="score-display">
-                        <span class="score-label">Translation Quality Score:</span>
-                        <span id="quality-score">-</span>
+        <div id="settings-container">
+            <div class="settings-section">
+                <h3>Settings</h3>
+                <div class="api-key-section">
+                    <div id="api-auth-gate">
+                        <h4>API Access</h4>
+                        <p>To use the hosted API key, please answer this question:</p>
+                        <div class="auth-question">
+                            <label for="auth-answer">What is Fan's lucky number?</label>
+                            <div class="auth-input-group">
+                                <input type="number" id="auth-answer" placeholder="Enter number" min="1" max="999">
+                                <button id="auth-submit">Unlock</button>
+                            </div>
+                            <div id="auth-error" class="auth-error hidden">Incorrect answer. Please try again.</div>
+                        </div>
+                        <small class="auth-help">Or enter your own Claude API key below</small>
                     </div>
-                    <div class="evaluation-details">
-                        <h4>Evaluation Breakdown:</h4>
-                        <div id="evaluation-metrics"></div>
+
+                    <div class="manual-api-section">
+                        <label for="api-key">Your Claude API Key:</label>
+                        <div class="api-key-input-group">
+                            <input type="password" id="api-key" placeholder="Enter your own Claude API key">
+                            <button id="toggle-api-key" type="button">👁️</button>
+                        </div>
+                        <small class="api-key-help">Get your API key from <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a></small>
                     </div>
-                    <div class="evaluation-feedback">
-                        <h4>AI Feedback:</h4>
-                        <p id="ai-feedback"></p>
+                </div>
+
+                <div class="prompt-section">
+                    <label for="evaluation-prompt">Evaluation Prompt:</label>
+                    <textarea id="evaluation-prompt" rows="8" placeholder="Enter your custom evaluation prompt..."></textarea>
+                    <div class="prompt-controls">
+                        <button id="reset-prompt">Reset to Default</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="translation-controls">
+            <button id="evaluate-btn">Evaluate Translation</button>
+            <div id="loading" class="hidden">Evaluating...</div>
+        </div>
+
+        <div id="evaluation-section" class="hidden">
+            <h3>AI Quality Evaluation</h3>
+            <div id="evaluation-content">
+                <div class="score-display">
+                    <span class="score-label">Translation Quality Score:</span>
+                    <span id="quality-score">-</span>
+                </div>
+                <div class="evaluation-details">
+                    <h4>Evaluation Breakdown:</h4>
+                    <div id="evaluation-metrics"></div>
+                </div>
+                <div class="evaluation-feedback">
+                    <h4>AI Feedback:</h4>
+                    <p id="ai-feedback"></p>
+
+                    <div class="conversation-section">
+                        <h5>Discuss with AI:</h5>
+                        <div id="conversation-history" class="conversation-history"></div>
+                        <div class="conversation-input">
+                            <textarea id="conversation-message" placeholder="Ask questions about your translation evaluation..." rows="2"></textarea>
+                            <button id="send-message">Send</button>
+                        </div>
                     </div>
                 </div>
             </div>
