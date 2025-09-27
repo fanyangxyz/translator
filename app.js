@@ -29,15 +29,12 @@ class TranslationEvaluator {
         // New elements for API and prompt management
         this.apiKeyInput = document.getElementById('api-key');
         this.toggleApiKeyBtn = document.getElementById('toggle-api-key');
-        this.evaluationPromptTextarea = document.getElementById('evaluation-prompt');
-        this.resetPromptBtn = document.getElementById('reset-prompt');
 
         this.defaultPrompt = this.getDefaultPrompt();
 
         this.initializeAuth();
         this.initializeEventListeners();
         this.updateCharCounts();
-        this.initializePrompt();
     }
 
     initializeEventListeners() {
@@ -99,10 +96,6 @@ class TranslationEvaluator {
         // API key toggle event listener
         this.toggleApiKeyBtn.addEventListener('click', () => {
             this.toggleApiKeyVisibility();
-        });
-
-        this.resetPromptBtn.addEventListener('click', () => {
-            this.resetPrompt();
         });
     }
 
@@ -259,14 +252,6 @@ Please respond in the following JSON format:
         this.toggleApiKeyBtn.textContent = type === 'password' ? '👁️' : '🙈';
     }
 
-    initializePrompt() {
-        this.evaluationPromptTextarea.value = this.defaultPrompt;
-    }
-
-
-    resetPrompt() {
-        this.evaluationPromptTextarea.value = this.defaultPrompt;
-    }
 
 
     async callClaudeAPI(originalText, userTranslation, sourceLang, targetLang) {
@@ -276,7 +261,7 @@ Please respond in the following JSON format:
             throw new Error('Please enter your Claude API key in the settings above.');
         }
 
-        const prompt = this.evaluationPromptTextarea.value
+        const prompt = this.defaultPrompt
             .replace('{sourceLang}', this.getLanguageName(sourceLang))
             .replace('{targetLang}', this.getLanguageName(targetLang))
             .replace('{originalText}', originalText)
