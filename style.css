@@ -310,13 +310,6 @@ header p {
     white-space: pre-wrap;
 }
 
-#p5-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    opacity: 0.1;
-}
 
 @media (max-width: 768px) {
     .text-areas {

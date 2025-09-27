@@ -96,7 +96,7 @@ class TranslationEvaluator {
             }
         });
 
-        // New event listeners for API and prompt management
+        // API key toggle event listener
         this.toggleApiKeyBtn.addEventListener('click', () => {
             this.toggleApiKeyVisibility();
         });
@@ -192,7 +192,17 @@ class TranslationEvaluator {
 
         } catch (error) {
             console.error('Evaluation error:', error);
-            alert(`Evaluation failed: ${error.message}`);
+
+            let errorMessage = 'Unknown error occurred';
+            if (error.message) {
+                errorMessage = error.message;
+            } else if (typeof error === 'string') {
+                errorMessage = error;
+            } else {
+                errorMessage = JSON.stringify(error);
+            }
+
+            alert(`Evaluation failed: ${errorMessage}`);
         } finally {
             this.setLoading(false);
         }
@@ -240,57 +250,7 @@ Please respond in the following JSON format:
     }
 
     initializeAuth() {
-        const authGate = document.getElementById('api-auth-gate');
-        const authSubmit = document.getElementById('auth-submit');
-        const authAnswer = document.getElementById('auth-answer');
-        const authError = document.getElementById('auth-error');
-
-        // Set Fan's lucky number here
-        const correctAnswer = 33; // Fan's lucky number
-
-        authSubmit.addEventListener('click', () => {
-            this.checkAuth(authAnswer.value, correctAnswer, authGate, authError);
-        });
-
-        authAnswer.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.checkAuth(authAnswer.value, correctAnswer, authGate, authError);
-            }
-        });
-
-        // Reset authentication on page load - users need to authenticate each time
-        sessionStorage.removeItem('fanAppAuthenticated');
-    }
-
-    checkAuth(userAnswer, correctAnswer, authGate, authError) {
-        if (parseInt(userAnswer) === correctAnswer) {
-            // Correct answer - grant access
-            sessionStorage.setItem('fanAppAuthenticated', 'true');
-            this.grantAccess(authGate);
-            authError.classList.add('hidden');
-        } else {
-            // Wrong answer - show error
-            authError.classList.remove('hidden');
-            setTimeout(() => {
-                authError.classList.add('hidden');
-            }, 3000);
-        }
-    }
-
-    grantAccess(authGate) {
-        // Hide the auth gate and show success
-        authGate.innerHTML = `
-            <div class="auth-success">
-                <h4>✅ API Access Granted</h4>
-                <p>You can now use the hosted Claude API key for evaluations.</p>
-            </div>
-        `;
-        // Set your API key when access is granted
-        this.apiKeyInput.value = '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';
-    }
-
-    initializePrompt() {
-        this.evaluationPromptTextarea.value = this.defaultPrompt;
+        // No authentication needed - users provide their own API keys
     }
 
     toggleApiKeyVisibility() {
@@ -298,6 +258,11 @@ Please respond in the following JSON format:
         this.apiKeyInput.type = type;
         this.toggleApiKeyBtn.textContent = type === 'password' ? '👁️' : '🙈';
     }
+
+    initializePrompt() {
+        this.evaluationPromptTextarea.value = this.defaultPrompt;
+    }
+
 
     resetPrompt() {
         this.evaluationPromptTextarea.value = this.defaultPrompt;
@@ -339,7 +304,19 @@ Please respond in the following JSON format:
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error || `API Error: ${response.status}`);
+            let errorMessage = `API Error: ${response.status}`;
+
+            if (errorData.error) {
+                if (typeof errorData.error === 'string') {
+                    errorMessage = errorData.error;
+                } else if (errorData.error.message) {
+                    errorMessage = errorData.error.message;
+                } else {
+                    errorMessage = JSON.stringify(errorData.error);
+                }
+            }
+
+            throw new Error(errorMessage);
         }
 
         const data = await response.json();
@@ -529,7 +506,13 @@ Please respond in the following JSON format:
 
         } catch (error) {
             console.error('Conversation error:', error);
-            this.addMessageToHistory('error', 'Sorry, I encountered an error. Please try again.');
+
+            let errorMessage = 'Sorry, I encountered an error. Please try again.';
+            if (error.message) {
+                errorMessage = `Error: ${error.message}`;
+            }
+
+            this.addMessageToHistory('error', errorMessage);
         } finally {
             this.sendMessageBtn.disabled = false;
             this.sendMessageBtn.textContent = 'Send';

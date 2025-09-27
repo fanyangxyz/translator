@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Translation Hub</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -83,28 +82,12 @@
             <div class="settings-section">
                 <h3>Settings</h3>
                 <div class="api-key-section">
-                    <div id="api-auth-gate">
-                        <h4>API Access</h4>
-                        <p>To use the hosted API key, please answer this question:</p>
-                        <div class="auth-question">
-                            <label for="auth-answer">What is Fan's lucky number?</label>
-                            <div class="auth-input-group">
-                                <input type="number" id="auth-answer" placeholder="Enter number" min="1" max="999">
-                                <button id="auth-submit">Unlock</button>
-                            </div>
-                            <div id="auth-error" class="auth-error hidden">Incorrect answer. Please try again.</div>
-                        </div>
-                        <small class="auth-help">Or enter your own Claude API key below</small>
+                    <label for="api-key">Claude API Key:</label>
+                    <div class="api-key-input-group">
+                        <input type="password" id="api-key" placeholder="Enter your Claude API key">
+                        <button id="toggle-api-key" type="button">👁️</button>
                     </div>
-
-                    <div class="manual-api-section">
-                        <label for="api-key">Your Claude API Key:</label>
-                        <div class="api-key-input-group">
-                            <input type="password" id="api-key" placeholder="Enter your own Claude API key">
-                            <button id="toggle-api-key" type="button">👁️</button>
-                        </div>
-                        <small class="api-key-help">Get your API key from <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a></small>
-                    </div>
+                    <small class="api-key-help">Get your API key from <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a></small>
                 </div>
 
                 <div class="prompt-section">
@@ -149,10 +132,8 @@
             </div>
         </div>
 
-        <div id="p5-canvas"></div>
     </div>
 
-    <script src="sketch.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
