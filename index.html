@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Translation Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>AI Translation Hub</h1>
+            <p>Translate any text and get AI-powered quality evaluation</p>
+        </header>
+
+        <div id="translation-container">
+            <div class="language-selectors">
+                <div class="lang-select">
+                    <label for="source-lang">From:</label>
+                    <select id="source-lang">
+                        <option value="auto">Auto-detect</option>
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ru">Russian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                    </select>
+                </div>
+
+                <button id="swap-languages">⇄</button>
+
+                <div class="lang-select">
+                    <label for="target-lang">To:</label>
+                    <select id="target-lang">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ru">Russian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-areas">
+                <div class="input-section">
+                    <textarea id="source-text" placeholder="Enter text to translate..."></textarea>
+                    <div class="text-info">
+                        <span id="char-count">0 characters</span>
+                        <button id="clear-text">Clear</button>
+                    </div>
+                </div>
+
+                <div class="translation-controls">
+                    <button id="translate-btn">Translate</button>
+                    <div id="loading" class="hidden">Translating...</div>
+                </div>
+
+                <div class="output-section">
+                    <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
+                    <div class="text-info">
+                        <button id="copy-translation">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="evaluation-section" class="hidden">
+                <h3>AI Quality Evaluation</h3>
+                <div id="evaluation-content">
+                    <div class="score-display">
+                        <span class="score-label">Translation Quality Score:</span>
+                        <span id="quality-score">-</span>
+                    </div>
+                    <div class="evaluation-details">
+                        <h4>Evaluation Breakdown:</h4>
+                        <div id="evaluation-metrics"></div>
+                    </div>
+                    <div class="evaluation-feedback">
+                        <h4>AI Feedback:</h4>
+                        <p id="ai-feedback"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="p5-canvas"></div>
+    </div>
+
+    <script src="sketch.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
